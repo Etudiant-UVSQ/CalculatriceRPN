@@ -1,4 +1,4 @@
-package fr.uvsq.calculatricerpn;
+package fr.uvsq.calculatricerpn.main;
 import fr.uvsq.calculatricerpn.exceptions.DivisionParZeroException;
 
 
