@@ -1,10 +1,10 @@
+package fr.uvsq.calculatricerpn.main;
 
-
-
-import java.util.Stack;
 
 import fr.uvsq.calculatricerpn.exceptions.BorneSupInfException;
 import fr.uvsq.calculatricerpn.exceptions.DivisionParZeroException;
+
+import java.util.Stack;
 
 
 /*
