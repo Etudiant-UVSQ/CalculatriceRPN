@@ -12,7 +12,7 @@ import fr.uvsq.calculatricerpn.exceptions.DivisionParZeroException;
 
 //Classe de test TestOperation fait des testes sur les différentes methodes de l'Operation
 
-public class TestOperation {
+public class OperationTest {
 	
 	private Operation op;
 	
