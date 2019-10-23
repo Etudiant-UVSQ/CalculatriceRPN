@@ -20,7 +20,7 @@ public class MoteurRPN {
 
 
     //La plus petite valeur de la calculatrice quand ne peut pas depassé
-    private static final double MIN_VALUE = -10000.0;
+    private static final double MIN_VALUE =0;
 
 
     //La plus grande valeur de la calculatrice quand ne peut pas depassé
