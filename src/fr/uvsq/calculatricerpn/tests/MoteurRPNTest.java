@@ -10,7 +10,7 @@ import fr.uvsq.calculatricerpn.exceptions.BorneSupInfException;
 import fr.uvsq.calculatricerpn.exceptions.DivisionParZeroException;
 
 
-public class TestMoteurRPN {
+public class MoteurRPNTest {
 
     private MoteurRPN m;
 
