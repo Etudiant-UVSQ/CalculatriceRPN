@@ -74,7 +74,7 @@ public class MoteurRPN {
 
     public Deque<Double> getOperandes() {
 
-        System.out.println("\n\n CONTENUE DE LA PILE des opÃ©randes:\n");
+        System.out.println("\n\n CONTENUE DE LA PILE des opérandes:\n");
         for (double i:operandes
              ) {
 

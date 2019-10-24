@@ -8,6 +8,6 @@ public class OperationImpossibleException extends Exception{
      * Initialise une instance de <code>OperationImpossibleException</code>.
      */
 	public OperationImpossibleException() {
-		super("<------!!!! Opération Impossible !!!!");
+		super("<------!!!! Opération Impossible !!!! Il y a moins de deux opérandes dans la pile");
 	}
 }

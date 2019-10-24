@@ -49,7 +49,7 @@ public class SaisieRPN {
                 moteur.getExpCourante();
                 moteur.getOperandes();
 
-            }catch (BorneSupInfException e){System.out.println(e.getMessage());}
+            }catch (BorneSupInfException e){System.out.println(e.getMessage() + "Min_Val : " +  moteur.getMinValue() + " Max_Val : " + moteur.getMaxValue() );}
 
 
              catch (NumberFormatException e) {
@@ -57,7 +57,7 @@ public class SaisieRPN {
                     System.out.println("\t\t\t\t\t  ******** Au revoir!!!  ********");
                     stay=false;
                 } else {
-                    System.out.println("\t\t\t\t\t  ******** Vous n'avez pas saisie une entrÃ©e valide!!! ********");
+                    System.out.println("\t\t\t\t\t  ******** Vous n'avez pas saisie une entrée valide!!! ********");
                     moteur.getExpCourante();
                     moteur.getOperandes();
                 }
