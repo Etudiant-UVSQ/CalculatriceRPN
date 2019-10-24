@@ -1,88 +1,72 @@
 package fr.uvsq.calculatricerpn.main;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 
 import fr.uvsq.calculatricerpn.exceptions.BorneSupInfException;
 import fr.uvsq.calculatricerpn.exceptions.DivisionParZeroException;
 import fr.uvsq.calculatricerpn.exceptions.OperationImpossibleException;
 
-/*
- * 5 : Classe qui gère les interactions avec lutilisateur et invoque le moteur RPN.
- */
 public class SaisieRPN {
 
-    //Attribut scanner qui permet de gerer les saisies
-    private Scanner scanner;
+    Scanner sc = new Scanner(System.in);
+    BufferedReader entree = new BufferedReader(new InputStreamReader(System.in));
+    MoteurRPN moteur = new MoteurRPN();
+    Operation operation;
+    boolean stay=true,operateur=true;
+    public void saisir() throws IOException, DivisionParZeroException, OperationImpossibleException {
+        System.out.println("\n\t\t\t\t\t ******** Entrez au clavier (un nombre, un operateur ou exit) ********");
+        String saisie = entree.readLine();
 
-    //Attribut  moteur qui permet d'enregistrer une opérande, d'appliquer une opération sur les opérandes .
-    private MoteurRPN moteur;
 
+        for (Operation i:Operation.values()
+             ) {
+            if (saisie.toUpperCase().equals(i.name()) || saisie.equals(String.valueOf(i.symbole))){
+                operateur=true;
+                if (moteur.operandes.size()<2) throw new OperationImpossibleException();
 
-    //Constructeur de Saisie qui initialise les attributs moteur et scanner
-    public SaisieRPN() {
-        this.scanner = new Scanner(System.in);
-        this.moteur = new MoteurRPN();
-    }
+                else {
 
-    // Cette méthode permet de gérer les saisies de l'utilisateur
-    public void saisie() throws OperationImpossibleException,BorneSupInfException,DivisionParZeroException{
-        String string = "";
-        boolean arret = false;
-        System.out.println("===> Veillez Saisir un nombre, un opération ou exit pour quitter la calculatrice.");
-        while (arret == false) {
+                    moteur.operer(i);
+                    moteur.getExpCourante();
+                    moteur.getOperandes();
 
-            if (scanner.hasNextDouble()) { // si la saisie est un nombre
-                moteur.enregistreOperande(scanner.nextDouble()); // on met le nombre en haut de la pile
-                System.out.println(moteur.listeOperandes()); // affichage opérande
-                string = scanner.nextLine(); // lecture de la prochaine saisie
-            }
-
-            else { // si la saisie est une opération ou une chaine de caractère
-                string = scanner.nextLine();
-                if (this.testeOperation(string)) // si la saisie est une opération
-                    if (moteur.operationPossible()) { // si la pile a au moins deux éléments
-                        // enlève les deux premiers éléments, fait l'opération et met le résultat dans la pile
-                        moteur.calculeOperation(renvoieOperation(string));
-                        System.out.println(moteur.listeOperandes());
-                    }
-                    else throw new OperationImpossibleException(); // sinon si la pile n'a pas au moins deux éléments
-                    // si la saisie est "exit", on arréte le programme
-                else if (string.equals("exit")) {
-                    arret = true;
-                    System.out.println("<--------- END --------->");
                 }
+                break;
+
+            }
+            operateur=false;
 
 
+        }
+        if (!operateur) {
+            try {
+                double x = Double.parseDouble(saisie);
+
+                moteur.enregistrerOperande(x);
+                moteur.getExpCourante();
+                moteur.getOperandes();
+
+            }catch (BorneSupInfException e){System.out.println(e.getMessage());}
+
+
+             catch (NumberFormatException e) {
+                if (saisie.toLowerCase().equals("exit")) {
+                    System.out.println("\t\t\t\t\t  ******** Au revoir!!!  ********");
+                    stay=false;
+                } else {
+                    System.out.println("\t\t\t\t\t  ******** Vous n'avez pas saisie une entrée valide!!! ********");
+                    moteur.getExpCourante();
+                    moteur.getOperandes();
+                }
             }
         }
-    }
 
-    //Méthode permet de savoir si une chaine de caractère correspond à PLUS, MOINS, MULT, DIV
-    public boolean testeOperation(String string) {
-        if (string.length() != 1)
-            return false;
 
-        return renvoieOperation(string) != null;
-    }
 
-    //Méthode qui renvoie l'opération
-    public Operation renvoieOperation(String string) {
-        for (Operation op : Operation.values())
-            if (string.charAt(0) == op.getSymbole())
-                return op;
-        return null;
 
     }
-
-    // Get de l'attribut moteur
-    public MoteurRPN getMoteur() {
-        return this.moteur;
-    }
-
-
-
-
-
-
 
 }

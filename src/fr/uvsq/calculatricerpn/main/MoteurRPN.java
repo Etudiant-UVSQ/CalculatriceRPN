@@ -1,86 +1,93 @@
 package fr.uvsq.calculatricerpn.main;
 
-
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import fr.uvsq.calculatricerpn.exceptions.BorneSupInfException;
 import fr.uvsq.calculatricerpn.exceptions.DivisionParZeroException;
 
-import java.util.Stack;
-
-
-/*
- * MoteurRPN permet d'enregistrer une opérande, d'appliquer une opération sur les opérandes
- * et de retourner l'ensemble des opérandes stockées
- */
-
 public class MoteurRPN {
 
-
-    //Pile d'opérandes
-    private Stack<Double> pile;
-
+    Deque<Double> operandes = new ArrayDeque<>();
+    Deque<String> expCourante = new ArrayDeque<>();
 
     //La plus petite valeur de la calculatrice quand ne peut pas depassé
-    private static final double MIN_VALUE =0;
+    private static final double MIN_VALUE =-10000.0;
 
 
     //La plus grande valeur de la calculatrice quand ne peut pas depassé
 
     private static final double MAX_VALUE = 10000.0;
 
+    public void enregistrerOperande(double x) throws BorneSupInfException {
 
-    //Initisalisation de la pile dans le constructeur
-
-    public MoteurRPN() {
-        pile = new Stack<Double>();
+        if(Math.abs(x)>MAX_VALUE) throw new BorneSupInfException();
+        operandes.push(x);
+        expCourante.push(String.valueOf(x));
     }
 
-    // 4-a : La Méthode qui permet d'enregistrer une opérande
+    public double operer (Operation op) throws DivisionParZeroException {
+        Double resultat = null;
 
-    public Double enregistreOperande(double val)throws BorneSupInfException{
-        if(Math.abs(val)>MAX_VALUE) throw new BorneSupInfException();
-        if(Math.abs(val)<MIN_VALUE) throw new BorneSupInfException();
-        return pile.push(val);
-    }
+        try {
+            double op1,op2;
+            op1=operandes.removeFirst();
+            op2=operandes.removeFirst();
+            resultat=op.eval(op1,op2);
+            if (resultat.isInfinite()){
+                operandes.push(op2);
+                operandes.push(op1);
+
+            }
+            else
+            {
+                operandes.push(resultat);
+                expCourante.push(String.valueOf(op.getSymbole()));
+            }
 
 
-    /*
-     * 4-b : Méthode qui fait le calcul de l'opération entre  les deux opérandes
-     * et stocke le résultat dans la pile
-     */
-    public Double calculeOperation(Operation op)throws DivisionParZeroException,BorneSupInfException{
-        return enregistreOperande(op.eval(pile.pop(), pile.pop()));
-    }
-
-
-    /*
-     * Methode qui permet de savoir si une operation est possible
-     * Test si la pile a au moins deux éléments
-     */
-    public boolean operationPossible(){
-        if(pile.size()>=2) return true;
-        else return false;
-    }
-
-    /*
-     * Une Méthode qui permet d'afficher l'intervalle de nombre
-     * entre min_value et max_value dans la console
-     */
-
-    public String specifieMinMaxValue(){
-        return "MIN_VALUE = " + MIN_VALUE + " et MAX_VALUE = " + MAX_VALUE + ".";
-    }
-
-    //4-c : La Méthode qui retourne l'ensemble des operandes stockées
-    public String listeOperandes(){
-        String string = "";
-        for(Double val: pile){
-            string += val + " ";
+        }catch (NoSuchElementException  e) {
+            System.out.println("La pile est vide!! Vous de pouvez pas faire d'operation sans operandes");
         }
-        return string;
+        catch (DivisionParZeroException e){
+            System.out.println(e.getMessage());
+        }
+        catch (NullPointerException e){
+
+        }
+        return resultat;
     }
 
-    //Get de la pile du moteurRPN
-    public Stack<Double> getPile() {
-        return pile;
+
+    public Deque<String> getExpCourante() {
+
+        System.out.println("\n Expression Courante: \n");
+        for (Iterator<String> it = expCourante.descendingIterator(); it.hasNext(); ) {
+            String i = it.next();
+
+            System.out.print(i + ' ');
+        }
+        return expCourante;
     }
+
+    public Deque<Double> getOperandes() {
+
+        System.out.println("\n\n CONTENUE DE LA PILE des opérandes:\n");
+        for (double i:operandes
+             ) {
+
+            System.out.println("\t" + i);
+        }
+        return operandes;
+    }
+
+    public static double getMaxValue() {
+        return MAX_VALUE;
+    }
+
+    public static double getMinValue() {
+        return MIN_VALUE;
+    }
+
 }

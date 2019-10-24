@@ -67,7 +67,7 @@ public enum Operation {
 	/*
 	 * 3-a : Attribut Symbole representant l'operateur 
 	 */
-	private char symbole;
+	public char symbole;
 	
 
 	/*
