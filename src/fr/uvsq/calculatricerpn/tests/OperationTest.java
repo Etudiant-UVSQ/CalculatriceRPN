@@ -10,36 +10,36 @@ import fr.uvsq.calculatricerpn.exceptions.DivisionParZeroException;
 
 
 
-//Classe de test TestOperation fait des testes sur les différentes methodes de l'Operation
+//Classe de test OperationTest fait des testes sur les différentes methodes de l'Operation
 
 public class OperationTest {
 	
 	private Operation op;
 	
-	//Test de la constante Plus de la classe Operation
+
 	@Test
-	public void testPlus() throws DivisionParZeroException {
+	public void testConstantePlusClassOperation() throws DivisionParZeroException {
 		op = Operation.PLUS;
 		assertEquals(op.eval(2,3)==5.0,true);
 	}
 	
-	//Test de la constante Moins de la classe Operation
+
 	@Test
-	public void testMoins() throws DivisionParZeroException {
+	public void testConstanteMoinsClassOperation() throws DivisionParZeroException {
 		op= Operation.MOINS;
 		assertEquals(op.eval(2,3)==1.0,true);
 	}
 	
-	//Test de la constante Mult de la classe Operation
+
 	@Test
-	public void testMult() throws DivisionParZeroException {
+	public void testConstanteMultClassOperation() throws DivisionParZeroException {
 		op= Operation.MULT;
 		assertEquals(op.eval(2,3)==6.0,true);
 	}
 	
-	//Test de la constante Div de la classe Operation
+	
 	@Test
-	public void testDiv() throws DivisionParZeroException {
+	public void testConstanteDivClassOperation() throws DivisionParZeroException {
 		op= Operation.DIV;
 		assertEquals(op.eval(2,3)==1.5,true);
 	}

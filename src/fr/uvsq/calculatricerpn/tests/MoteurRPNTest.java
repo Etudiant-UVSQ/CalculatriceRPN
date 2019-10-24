@@ -2,7 +2,6 @@ package fr.uvsq.calculatricerpn.tests;
 
 import static org.junit.Assert.*;
 
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -40,6 +39,29 @@ public class MoteurRPNTest {
         m.enregistrerOperande(2.0);
         assertEquals(m.getOperandes().pop()==2.0,true);
     }
+    
+    //Test si l'opération est bien impossible sans élément
+    @Test
+    public void testOperationImpossibleSansAucunElem() throws BorneSupInfException{
+        assertEquals(m.operationPossible(),false);
+    }
+
+
+    //Test si l'opération est bien impossible avec 1 seul élément
+    @Test
+    public void testOperationImpossibleAvecUnElem() throws BorneSupInfException{
+        m.enregistrerOperande(2.0);
+        assertEquals(m.operationPossible(),false);
+    }
+    
+    //Test si l'opération est possible
+    @Test
+    public void testOperationPossibleTrue() throws BorneSupInfException{
+        m.enregistrerOperande(3.0);
+        m.enregistrerOperande(2.0);
+        assertEquals(m.operationPossible(),true);
+    }
+
 
     //Test si on peut ajouter un élément supérieur au max
     @Test (expected=BorneSupInfException.class)
@@ -66,11 +88,10 @@ public class MoteurRPNTest {
     public void testCalculerOperationMoins() throws BorneSupInfException, DivisionParZeroException{
         m.enregistrerOperande(3.0);
         m.enregistrerOperande(1.0);
-        boolean test=(m.operer(Operation.MOINS)==2.0);
-        assertEquals(test,true);
+        assertEquals(m.operer(Operation.MOINS)==2.0,true);
     }
 
-    //Teste si l'opération MULT fonctionne
+    //Test si l'opération MULT fonctionne
     @Test
     public void testCalculerOperationMult() throws BorneSupInfException, DivisionParZeroException{
         m.enregistrerOperande(3.0);
@@ -78,22 +99,17 @@ public class MoteurRPNTest {
         assertEquals(m.operer(Operation.MULT)==6.0,true);
     }
 
-    //Teste si l'opération DIV fonctionne
+    //Test si l'opération DIV fonctionne
     @Test
     public void testCalculerOperationDiv() throws BorneSupInfException, DivisionParZeroException{
         m.enregistrerOperande(3.0);
         m.enregistrerOperande(2.0);
-        boolean test=(m.operer(Operation.DIV)==1.5);
-        assertEquals(test,true);
+        assertEquals(m.operer(Operation.DIV)==1.5,true);
     }
 
-    //Teste si l'opération DIV par 0 renvoie bien une erreur
-    @Test(expected=DivisionParZeroException.class)
-    public void testCalculerOperationDivParZero() throws BorneSupInfException, DivisionParZeroException{
-        m.enregistrerOperande(3.0);
-        m.enregistrerOperande(0);
-        m.operer(Operation.DIV);
-    }
+ 
 
+    
 
+   
 }

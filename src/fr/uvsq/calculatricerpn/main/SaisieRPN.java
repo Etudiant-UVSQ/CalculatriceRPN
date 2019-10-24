@@ -68,5 +68,8 @@ public class SaisieRPN {
 
 
     }
+    public MoteurRPN getMoteur() {
+		return moteur;
+	}
 
 }

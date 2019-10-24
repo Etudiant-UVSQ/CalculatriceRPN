@@ -28,17 +28,17 @@ public class MoteurRPN {
     }
 
     public double operer (Operation op) throws DivisionParZeroException {
-        Double resultat = null;
-
+        Double resultat = -1.0;
+        double op1,op2;
+        op1=operandes.removeFirst();
+        op2=operandes.removeFirst();
         try {
-            double op1,op2;
-            op1=operandes.removeFirst();
-            op2=operandes.removeFirst();
+            
+            
             resultat=op.eval(op1,op2);
             if (resultat.isInfinite()){
                 operandes.push(op2);
                 operandes.push(op1);
-
             }
             else
             {
@@ -51,11 +51,12 @@ public class MoteurRPN {
             System.out.println("La pile est vide!! Vous de pouvez pas faire d'operation sans operandes");
         }
         catch (DivisionParZeroException e){
+        	operandes.push(op2);
+            operandes.push(op1);
             System.out.println(e.getMessage());
         }
-        catch (NullPointerException e){
-
-        }
+       
+        
         return resultat;
     }
 
@@ -80,6 +81,11 @@ public class MoteurRPN {
             System.out.println("\t" + i);
         }
         return operandes;
+    }
+    
+    public boolean operationPossible(){
+        if(operandes.size()>=2) return true;
+        else return false;
     }
 
     public static double getMaxValue() {
